@@ -8,7 +8,7 @@ logging.getLogger().setLevel(logging.INFO)
 # Helper functions for listing files, creating a directory and deleting files inside a directory
 
 def get_list_of_files(directory_name):
-    x = os.listdir(f"./{directory_name}")
+    x = os.listdir(f"{directory_name}")
     return x
 
 
@@ -18,15 +18,17 @@ def create_directory(directory_name):
     else:
         os.makedirs(directory_name)
         logging.info(f"Created directory {directory_name}")
+    return True
 
 
 def clean_directory(directory):
     for f in os.listdir(directory):
         os.remove(os.path.join(directory, f))
         logging.info(f"Removed {f}")
+        return True
 
 
-class MyFile:
+class FileSorter:
 
     def __init__(self):
         self.source_directory = "files/"
@@ -62,26 +64,30 @@ class MyFile:
         :return: None
         """
         self.prepare_temp_directory()
-        for file in get_list_of_files(self.source_directory):
-            fname, ext = file.rsplit('.', 1)
-            file_path = self.source_directory + file
+        try:
+            for file in get_list_of_files(self.source_directory):
+                fname, ext = file.rsplit('.', 1)
+                file_path = self.source_directory + file
 
-            i = 1
-            written = False
-            with open(file_path) as infile:
-                while True:
-                    temp_file = "{}_{}.{}".format(fname, i, ext)
-                    with open(self.temp_directory + temp_file, 'w') as output_file:
-                        for line in (infile.readline() for _ in range(self.buffer_size)):
-                            if not line == '':
-                                output_file.write(line)
-                        written = bool(line)
-                    if not written:
-                        break
-                    i += 1
-                    output_file.close()
-                infile.close()
-        logging.info("Splitted source files")
+                i = 1
+                written = False
+                with open(file_path) as infile:
+                    while True:
+                        temp_file = "{}_{}.{}".format(fname, i, ext)
+                        with open(self.temp_directory + temp_file, 'w') as output_file:
+                            for line in (infile.readline() for _ in range(self.buffer_size)):
+                                if not line == '':
+                                    output_file.write(line)
+                            written = bool(line)
+                        if not written:
+                            break
+                        i += 1
+                        output_file.close()
+                    infile.close()
+            logging.info("Splitted source files")
+            return True
+        except Exception:
+            logging.error("Split process failed")
 
     def sort(self):
         """
@@ -132,5 +138,5 @@ class MyFile:
 
 
 if __name__ == '__main__':
-    test = MyFile()
+    test = FileSorter()
     test.sort()
