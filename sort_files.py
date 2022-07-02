@@ -113,7 +113,7 @@ class FileSorter:
                 file = open(self.temp_directory + f)
                 open_files.append(file)
                 val = file.readline()
-                if val is != '':
+                if val != '':
                     heapq.heappush(min_heap, (int(val), count, file))
                     count += 1
         return min_heap
