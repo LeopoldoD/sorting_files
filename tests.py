@@ -16,7 +16,7 @@ class TestStringMethods(unittest.TestCase):
         self.sorter = FileSorter()
 
     def test_get_list_of_files(self):
-        self.assertItemsEqual(self.sorting_files.get_list_of_files("files"),
+        self.assertCountEqual(self.sorting_files.get_list_of_files("files"),
         ['file2.txt',
          'file3.txt',
          'file1.txt',
