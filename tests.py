@@ -3,8 +3,8 @@ from unittest.mock import patch
 import io
 import unittest.mock
 import warnings
-import sorting_files.sort_files as sorting
-from sorting_files.sort_files import FileSorter
+import sort_files as sorting
+from sort_files import FileSorter
 
 mock_stdout = unittest.mock.patch('sys.stdout', new_callable=io.StringIO)
 
