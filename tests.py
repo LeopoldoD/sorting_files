@@ -50,7 +50,8 @@ class TestStringMethods(unittest.TestCase):
         warnings.simplefilter('ignore', ResourceWarning)
         self.assertEqual(len(self.sorter.get_min_heap()), 12)
 
-    @mock_stdout
+    #@mock_stdout
+    @unittest.SkipTest
     def test_min_heap_sort(self, stdout):
         self.sorter.min_heap_sort()
         value = stdout.getvalue()
